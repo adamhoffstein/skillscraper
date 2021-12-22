@@ -1,0 +1,361 @@
+alexa for business
+alexa for business
+amazon api gateway
+amazon api gateway
+amazon appstream 2.0
+amazon appsync
+amazon athena
+amazon augmented ai
+amazon aurora
+amazon braket
+amazon chime
+amazon cloudfront
+amazon cloudsearch
+amazon cloudwatch
+amazon codeguru \(preview\)
+amazon comprehend
+amazon connect
+amazon corretto
+amazon documentdb \(with mongodb compatibility\)
+amazon dynamodb
+amazon ec2
+amazon ec2 auto scaling
+amazon elastic block store \(ebs\)
+amazon elastic container registry
+amazon elastic container service
+amazon elastic file system \(efs\)
+amazon elastic inference
+amazon elastic kubernetes service
+amazon elastic transcoder
+amazon elasticache
+amazon elasticsearch service
+amazon emr
+amazon eventbridge
+amazon forecast
+amazon fraud detector
+amazon freertos
+amazon fsx for lustre
+amazon fsx for windows file server
+amazon gamelift
+amazon inferentia
+amazon kendra
+amazon kinesis
+amazon kinesis video streams
+amazon lex
+amazon lightsail
+amazon lumberyard
+amazon managed apache cassandra service
+amazon managed blockchain
+amazon managed streaming for apache kafka
+amazon mq
+amazon neptune
+amazon personalize
+amazon pinpoint
+amazon pinpoint
+amazon polly
+amazon quantum ledger database \(qldb\)
+amazon quantum ledger database \(qldb\)
+amazon quicksight
+amazon rds
+amazon rds on vmware
+amazon redshift
+amazon redshift
+amazon rekognition
+amazon route 53
+amazon s3 glacier
+amazon sagemaker
+amazon sagemaker ground truth
+amazon simple email service \(ses\)
+amazon simple notification service \(sns\)
+amazon simple queue service \(sqs\)
+amazon simple storage service \(s3\)
+amazon sumerian
+amazon textract
+amazon timestream
+amazon transcribe
+amazon translate
+amazon vpc
+amazon workdocs
+amazon workdocs
+amazon worklink
+amazon workmail
+amazon workspaces
+amplify
+apache mxnet on aws
+apache mxnet on aws
+api gateway
+api gateway
+app mesh
+application discovery service
+appstream 2.0
+appsync
+appsync
+athena
+augmented ai
+aurora
+auto scaling
+aws amplify
+aws app mesh
+aws application discovery service
+aws appsync
+aws auto scaling
+aws backup
+aws batch
+aws budgets
+aws chatbot
+aws cloud development kit \(cdk\)
+aws cloud map
+aws cloud9
+aws cloudformation
+aws cloudtrail
+aws codebuild
+aws codecommit
+aws codedeploy
+aws codepipeline
+aws codestar
+aws command line interface
+aws command line interface
+aws compute optimizer
+aws config
+aws console mobile application
+aws control tower
+aws cost and usage report
+aws cost explorer
+aws data exchange
+aws data pipeline
+aws database migration service
+aws database migration service
+aws datasync
+aws deep learning amis
+aws deep learning containers
+aws deepcomposer
+aws deeplens
+aws deepracer
+aws device farm
+aws device farm
+aws direct connect
+aws elastic beanstalk
+aws elemental appliances & software
+aws elemental mediaconnect
+aws elemental mediaconvert
+aws elemental medialive
+aws elemental mediapackage
+aws elemental mediastore
+aws elemental mediatailor
+aws fargate
+aws global accelerator
+aws glue
+aws greengrass
+aws ground station
+aws iot 1-click
+aws iot analytics
+aws iot button
+aws iot core
+aws iot device defender
+aws iot device management
+aws iot events
+aws iot sitewise
+aws iot things graph
+aws lake formation
+aws lambda
+aws license manager
+aws managed services
+aws management console
+aws migration hub
+aws opsworks
+aws organizations
+aws outposts
+aws partner device catalog
+aws personal health dashboard
+aws privatelink
+aws robomaker
+aws server migration service
+aws serverless application repository
+aws service catalog
+aws snow family
+aws snow family
+aws step functions
+aws storage gateway
+aws systems manager
+aws tools and sdks
+aws transfer for sftp
+aws transit gateway
+aws trusted advisor
+aws wavelength
+aws well-architected tool
+aws x-ray
+backup
+batch
+braket
+budgets
+chatbot
+chime
+cloud development kit \(cdk\)
+cloud map
+cloud9
+cloudendure disaster recovery
+cloudendure disaster recovery
+cloudendure migration
+cloudendure migration
+cloudformation
+cloudfront
+cloudsearch
+cloudtrail
+cloudwatch
+codebuild
+codecommit
+codedeploy
+codeguru \(preview\)
+codepipeline
+codestar
+command line interface
+command line interface
+comprehend
+compute optimizer
+config
+connect
+console mobile application
+contact lens for amazon connect
+contact lens for connect
+control tower
+corretto
+cost and usage report
+cost explorer
+data exchange
+data pipeline
+database migration service
+database migration service
+datasync
+deep learning amis
+deep learning containers
+deepcomposer
+deeplens
+deepracer
+device farm
+device farm
+direct connect
+documentdb \(with mongodb compatibility\)
+dynamodb
+ec2
+ec2 auto scaling
+elastic beanstalk
+elastic block store \(ebs\)
+elastic container registry
+elastic container service
+elastic file system \(efs\)
+elastic inference
+elastic kubernetes service
+elastic load balancing
+elastic load balancing
+elastic transcoder
+elasticache
+elasticsearch service
+elemental appliances & software
+elemental mediaconnect
+elemental mediaconvert
+elemental medialive
+elemental mediapackage
+elemental mediastore
+elemental mediatailor
+emr
+eventbridge
+fargate
+forecast
+fraud detector
+freertos
+fsx for lustre
+fsx for windows file server
+gamelift
+global accelerator
+glue
+greengrass
+ground station
+inferentia
+iot 1-click
+iot analytics
+iot button
+iot core
+iot device defender
+iot device management
+iot events
+iot sitewise
+iot things graph
+kendra
+kinesis
+kinesis video streams
+lake formation
+lambda
+lex
+license manager
+lightsail
+lumberyard
+managed apache cassandra service
+managed blockchain
+managed services
+managed streaming for apache kafka
+management console
+migration hub
+mq
+neptune
+opsworks
+organizations
+outposts
+partner device catalog
+personal health dashboard
+personalize
+pinpoint
+pinpoint
+polly
+privatelink
+quantum ledger database \(qldb\)
+quantum ledger database \(qldb\)
+quicksight
+rds
+rds on vmware
+redshift
+redshift
+rekognition
+reserved instance reporting
+reserved instance reporting
+robomaker
+route 53
+s3
+s3 glacier
+sagemaker
+sagemaker ground truth
+savings plans
+savings plans
+server migration service
+serverless application repository
+service catalog
+simple email service \(ses\)
+simple notification service \(sns\)
+simple queue service \(sqs\)
+simple storage service \(s3\)
+snow family
+snow family
+step functions
+storage gateway
+sumerian
+systems manager
+tensorflow on aws
+tensorflow on aws
+textract
+timestream
+tools and sdks
+transcribe
+transfer for sftp
+transit gateway
+translate
+trusted advisor
+vmware cloud on aws
+vmware cloud on aws
+vpc
+wavelength
+well-architected tool
+workdocs
+workdocs
+worklink
+workmail
+workspaces
+x-ray
