@@ -13,6 +13,7 @@ BASE_URL = (
 
 
 def scrape_to_file(path: str, url: str) -> None:
+    time.sleep(random.uniform(0.4, 9.2))
     ua = UserAgent()
     headers = {"User-Agent": ua.random}
     soup = BeautifulSoup(

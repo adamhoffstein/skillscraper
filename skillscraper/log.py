@@ -7,4 +7,4 @@ logger.add(
     format="<green>{time}</green> <level>{message}</level>",
     filter="sub.module",
 )
-logger.add("logs/{time}.log")
+logger.add("logs/{time:YYYY-MM-DD}}.log")
