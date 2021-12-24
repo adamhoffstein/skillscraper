@@ -346,7 +346,6 @@ tools and sdks
 transcribe
 transfer for sftp
 transit gateway
-translate
 trusted advisor
 vmware cloud on aws
 vmware cloud on aws

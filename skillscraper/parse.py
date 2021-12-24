@@ -1,8 +1,10 @@
 import re
+import pandas as pd
 from typing import List
 from importlib.resources import read_text
 from functools import lru_cache
 from bs4 import BeautifulSoup
+from skillscraper.log import logger
 
 
 def read_local(path: str) -> BeautifulSoup:
@@ -25,7 +27,7 @@ def get_description(soup: BeautifulSoup) -> List[str]:
 
 @lru_cache
 def load_keywords(path: str):
-    print(f"Loading keywords from {path}")
+    logger.info(f"Loading keywords from {path}")
     data = read_text(__package__, path)
     return data.split("\n")
 
@@ -37,4 +39,18 @@ def get_keywords(description: str):
         keywords.extend(load_keywords(path))
     keywords = " | ".join(list(set(keywords)))
     # for regex in patterns:
-    print(re.findall(keywords, description, re.IGNORECASE))
+    return [
+        i.lower() for i in re.findall(keywords, description, re.IGNORECASE)
+    ]
+
+
+def group_keywords(keywords: List[str]):
+    df = pd.DataFrame({"keyword": keywords})
+    df["keyword"] = df["keyword"].str.strip()
+    df["occurs"] = 1
+    return (
+        df.groupby("keyword", as_index=False)
+        .agg({"occurs": "sum"})
+        .sort_values("occurs", ascending=False)
+        .reset_index(drop=True)
+    )

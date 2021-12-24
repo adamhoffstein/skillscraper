@@ -389,8 +389,6 @@ tcsh
 tea
 terra
 tex
-text
-textile
 thrift
 ti-program
 tla
