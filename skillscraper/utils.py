@@ -4,6 +4,7 @@ from functools import lru_cache
 from importlib.resources import read_text
 from skillscraper.log import logger
 
+
 @lru_cache
 def read_internal_file(path: str) -> str:
     logger.info(f"Reading {path}")

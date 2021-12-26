@@ -3,9 +3,18 @@ import pandas as pd
 from typing import List
 from bs4 import BeautifulSoup
 from skillscraper.utils import read_internal_file_list
+from skillscraper.log import logger
+
+
+def read_local_text(path: str) -> str:
+    logger.info(f"Reading {path}")
+    with open(path) as fp:
+        text = fp.read().rstrip()
+    return text
 
 
 def read_local(path: str) -> BeautifulSoup:
+    logger.info(f"Reading {path}")
     with open(path) as fp:
         soup = BeautifulSoup(fp, "html.parser")
     return soup
@@ -14,13 +23,6 @@ def read_local(path: str) -> BeautifulSoup:
 def get_links(soup: BeautifulSoup) -> List[str]:
     links = soup.find_all("a", {"class": "base-card__full-link"})
     return [link.get("href") for link in links if link.get("href")]
-
-
-def get_description(soup: BeautifulSoup) -> List[str]:
-    description = soup.find(
-        "div", {"class": "description__text description__text--rich"}
-    )
-    return re.sub(r"\\n", "", description.text)
 
 
 def load_keywords(path: str):

@@ -13,16 +13,15 @@ todaydate = str(datetime.utcnow().date())
 
 scraper.request_descriptions(urls=jobs, location=LOCATION)
 
-path = Path("./output/{location}/")
-output_files = [p for p in path.iterdir() if p.suffix == ".html"]
+path = Path(f"./output/{LOCATION}/")
+output_files = [p for p in path.iterdir() if p.suffix == ".txt"]
 
 descriptions = []
 
 keywords = []
 
 for f in output_files:
-    content = parse.read_local(f)
-    description = parse.get_description(content)
+    description = parse.read_local_text(f)
     keywords.extend(parse.get_keywords(description))
     descriptions.append(" ".join(description.split()))
 

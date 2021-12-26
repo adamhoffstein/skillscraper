@@ -13,6 +13,7 @@ BASE_URL = (
     "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
 )
 
+
 def request_descriptions(urls: List[str], location: str):
     client = AsyncClient(requests=urls)
     client.scrape()
@@ -22,18 +23,26 @@ def request_descriptions(urls: List[str], location: str):
 
 def extract_to_file(path: str, data: str) -> None:
     logger.debug(f"Extracting text from div with {len(data)} characters")
-    soup = BeautifulSoup(
-        data, "html.parser"
-    )
-    content = soup.find("div", {"class": "show-more-less-html__markup show-more-less-html__markup--clamp-after-5"})
-    with open(path, "w") as file:
-        file.write(content.text)
+    soup = BeautifulSoup(data, "html.parser")
+    if content := soup.find(
+        "div",
+        {
+            "class": "show-more-less-html__markup show-more-less-html__markup--clamp-after-5"
+        },
+    ):
+        with open(path, "w") as file:
+            file.write(content.text)
+    else:
+        logger.error(f"Unable to find any description.")
+        with open(path.replace(".txt","_error.txt"), "w") as file:
+            file.write(data)
+
 
 
 def virtual_scroll_to_file(keywords: str, location: str) -> None:
     geo_ids = {
-        "New+York,+New+York,+United+States":"102571732",
-        "Berlin, Berlin, Germany":"106967730"
+        "New+York,+New+York,+United+States": "102571732",
+        "Berlin, Berlin, Germany": "106967730",
     }
     job_links = []
     s = requests.session()
@@ -51,6 +60,7 @@ def virtual_scroll_to_file(keywords: str, location: str) -> None:
             "start": i,
         }
         req = Request("GET", BASE_URL, params=search_params, headers=headers)
+        logger.info(f"Preparing to send request to : {req.__dict__}")
         req = s.prepare_request(req)
         soup = BeautifulSoup(s.send(req).content, "html.parser")
         links = get_links(soup)
