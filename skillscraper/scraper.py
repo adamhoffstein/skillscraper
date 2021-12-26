@@ -1,40 +1,49 @@
 import random
+from typing import List
 import requests
 import time
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
 from requests.sessions import Request
 from skillscraper.parse import get_links
+from skillscraper.client import AsyncClient
 from skillscraper.log import logger
+from skillscraper.utils import select_random_user_agent
 
 BASE_URL = (
     "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
 )
 
+def request_descriptions(urls: List[str], location: str):
+    client = AsyncClient(requests=urls)
+    client.scrape()
+    for n, data in enumerate(client.all_data):
+        extract_to_file(f"output/{location}/result_{n}.txt", data)
 
-def scrape_to_file(path: str, url: str) -> None:
-    time.sleep(random.uniform(0.4, 9.2))
-    ua = UserAgent()
-    headers = {"User-Agent": ua.random}
+
+def extract_to_file(path: str, data: str) -> None:
+    logger.debug(f"Extracting text from div with {len(data)} characters")
     soup = BeautifulSoup(
-        requests.get(url, headers=headers).content, "html.parser"
+        data, "html.parser"
     )
-    html = soup.prettify("utf-8")
+    content = soup.find("div", {"class": "show-more-less-html__markup show-more-less-html__markup--clamp-after-5"})
     with open(path, "w") as file:
-        file.write(str(html))
+        file.write(content.text)
 
 
 def virtual_scroll_to_file(keywords: str, location: str) -> None:
+    geo_ids = {
+        "New+York,+New+York,+United+States":"102571732",
+        "Berlin, Berlin, Germany":"106967730"
+    }
     job_links = []
     s = requests.session()
     s.keep_alive = False
-    ua = UserAgent()
-    headers = {"User-Agent": ua.random}
-    for i in range(0, 50, 25):
+    headers = {"User-Agent": select_random_user_agent()}
+    for i in range(0, 75, 25):
         search_params = {
             "keywords": keywords,
             "location": location,
-            "geoId": "106967730",
+            "geoId": geo_ids[location],
             "f_TPR": "r86400",
             "distance": "25",
             "position": "1",
@@ -48,10 +57,4 @@ def virtual_scroll_to_file(keywords: str, location: str) -> None:
         time.sleep(random.uniform(0.4, 9.2))
         logger.info(f"Added {len(links)} links.")
         job_links.extend(links)
-    total_links = list(set(job_links))
-    logger.info(f"Scraped {len(total_links)} total links.")
-    return total_links
-
-
-# def proxy_scrape_to_file(path: str, url: str) -> None:
-#     req_proxy = RequestProxy(log_level=logging.ERROR)
+    return list(set(job_links))

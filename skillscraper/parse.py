@@ -1,10 +1,8 @@
 import re
 import pandas as pd
 from typing import List
-from importlib.resources import read_text
-from functools import lru_cache
 from bs4 import BeautifulSoup
-from skillscraper.log import logger
+from skillscraper.utils import read_internal_file_list
 
 
 def read_local(path: str) -> BeautifulSoup:
@@ -25,11 +23,8 @@ def get_description(soup: BeautifulSoup) -> List[str]:
     return re.sub(r"\\n", "", description.text)
 
 
-@lru_cache
 def load_keywords(path: str):
-    logger.info(f"Loading keywords from {path}")
-    data = read_text(__package__, path)
-    return data.split("\n")
+    return read_internal_file_list(path)
 
 
 def get_keywords(description: str):
@@ -38,7 +33,6 @@ def get_keywords(description: str):
     for path in keyword_paths:
         keywords.extend(load_keywords(path))
     keywords = " | ".join(list(set(keywords)))
-    # for regex in patterns:
     return [
         i.lower() for i in re.findall(keywords, description, re.IGNORECASE)
     ]
