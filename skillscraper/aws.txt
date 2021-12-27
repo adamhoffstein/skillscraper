@@ -1,360 +1,332 @@
-alexa for business
-alexa for business
-amazon api gateway
-amazon api gateway
-amazon appstream 2.0
-amazon appsync
-amazon athena
-amazon augmented ai
-amazon aurora
-amazon braket
-amazon chime
-amazon cloudfront
-amazon cloudsearch
-amazon cloudwatch
-amazon codeguru \(preview\)
-amazon comprehend
-amazon connect
-amazon corretto
-amazon documentdb \(with mongodb compatibility\)
-amazon dynamodb
-amazon ec2
-amazon ec2 auto scaling
-amazon elastic block store \(ebs\)
+amazon documentdb
+amazon simple notification service
+amazon managed streaming for apache kafka
+documentdb
+amazon managed apache cassandra service
+amazon quantum ledger database
+aws serverless application repository
+amazon simple storage service
+aws elemental appliances & software
+simple notification service
+amazon simple email service
+amazon simple queue service
+amazon fsx for windows file server
+amazon elastic block store
+managed streaming for apache kafka
+amazon elastic file system
+serverless application repository
+aws application discovery service
+amazon elastic kubernetes service
+aws cloud development kit
 amazon elastic container registry
 amazon elastic container service
-amazon elastic file system \(efs\)
-amazon elastic inference
-amazon elastic kubernetes service
-amazon elastic transcoder
-amazon elasticache
-amazon elasticsearch service
-amazon emr
-amazon eventbridge
-amazon forecast
-amazon fraud detector
-amazon freertos
-amazon fsx for lustre
-amazon fsx for windows file server
-amazon gamelift
-amazon inferentia
-amazon kendra
-amazon kinesis
-amazon kinesis video streams
-amazon lex
-amazon lightsail
-amazon lumberyard
-amazon managed apache cassandra service
-amazon managed blockchain
-amazon managed streaming for apache kafka
-amazon mq
-amazon neptune
-amazon personalize
-amazon pinpoint
-amazon pinpoint
-amazon polly
-amazon quantum ledger database \(qldb\)
-amazon quantum ledger database \(qldb\)
-amazon quicksight
-amazon rds
-amazon rds on vmware
-amazon redshift
-amazon redshift
-amazon rekognition
-amazon route 53
-amazon s3 glacier
-amazon sagemaker
-amazon sagemaker ground truth
-amazon simple email service \(ses\)
-amazon simple notification service \(sns\)
-amazon simple queue service \(sqs\)
-amazon simple storage service \(s3\)
-amazon sumerian
-amazon textract
-amazon timestream
-amazon transcribe
-amazon translate
-amazon vpc
-amazon workdocs
-amazon workdocs
-amazon worklink
-amazon workmail
-amazon workspaces
-amplify
-apache mxnet on aws
-apache mxnet on aws
-api gateway
-api gateway
-app mesh
-application discovery service
-appstream 2.0
-appsync
-appsync
-athena
-augmented ai
-aurora
-auto scaling
-aws amplify
-aws app mesh
-aws application discovery service
-aws appsync
-aws auto scaling
-aws backup
-aws batch
-aws budgets
-aws chatbot
-aws cloud development kit \(cdk\)
-aws cloud map
-aws cloud9
-aws cloudformation
-aws cloudtrail
-aws codebuild
-aws codecommit
-aws codedeploy
-aws codepipeline
-aws codestar
-aws command line interface
-aws command line interface
-aws compute optimizer
-aws config
-aws console mobile application
-aws control tower
-aws cost and usage report
-aws cost explorer
-aws data exchange
-aws data pipeline
-aws database migration service
-aws database migration service
-aws datasync
-aws deep learning amis
-aws deep learning containers
-aws deepcomposer
-aws deeplens
-aws deepracer
-aws device farm
-aws device farm
-aws direct connect
-aws elastic beanstalk
-aws elemental appliances & software
-aws elemental mediaconnect
-aws elemental mediaconvert
-aws elemental medialive
-aws elemental mediapackage
-aws elemental mediastore
-aws elemental mediatailor
-aws fargate
-aws global accelerator
-aws glue
-aws greengrass
-aws ground station
-aws iot 1-click
-aws iot analytics
-aws iot button
-aws iot core
-aws iot device defender
-aws iot device management
-aws iot events
-aws iot sitewise
-aws iot things graph
-aws lake formation
-aws lambda
-aws license manager
-aws managed services
-aws management console
-aws migration hub
-aws opsworks
-aws organizations
-aws outposts
-aws partner device catalog
-aws personal health dashboard
-aws privatelink
-aws robomaker
-aws server migration service
-aws serverless application repository
-aws service catalog
-aws snow family
-aws snow family
-aws step functions
-aws storage gateway
-aws systems manager
-aws tools and sdks
-aws transfer for sftp
-aws transit gateway
-aws trusted advisor
-aws wavelength
-aws well-architected tool
-aws x-ray
-backup
-batch
-braket
-budgets
-chatbot
-chime
-cloud development kit \(cdk\)
-cloud map
-cloud9
-cloudendure disaster recovery
-cloudendure disaster recovery
-cloudendure migration
-cloudendure migration
-cloudformation
-cloudfront
-cloudsearch
-cloudtrail
-cloudwatch
-codebuild
-codecommit
-codedeploy
-codeguru \(preview\)
-codepipeline
-codestar
-command line interface
-command line interface
-comprehend
-compute optimizer
-config
-connect
-console mobile application
-contact lens for amazon connect
-contact lens for connect
-control tower
-corretto
-cost and usage report
-cost explorer
-data exchange
-data pipeline
-database migration service
-database migration service
-datasync
-deep learning amis
-deep learning containers
-deepcomposer
-deeplens
-deepracer
-device farm
-device farm
-direct connect
-documentdb \(with mongodb compatibility\)
-dynamodb
-ec2
-ec2 auto scaling
-elastic beanstalk
-elastic block store \(ebs\)
-elastic container registry
-elastic container service
-elastic file system \(efs\)
-elastic inference
-elastic kubernetes service
-elastic load balancing
-elastic load balancing
-elastic transcoder
-elasticache
-elasticsearch service
-elemental appliances & software
-elemental mediaconnect
-elemental mediaconvert
-elemental medialive
-elemental mediapackage
-elemental mediastore
-elemental mediatailor
-emr
-eventbridge
-fargate
-forecast
-fraud detector
-freertos
-fsx for lustre
-fsx for windows file server
-gamelift
-global accelerator
-glue
-greengrass
-ground station
-inferentia
-iot 1-click
-iot analytics
-iot button
-iot core
-iot device defender
-iot device management
-iot events
-iot sitewise
-iot things graph
-kendra
-kinesis
-kinesis video streams
-lake formation
-lambda
-lex
-license manager
-lightsail
-lumberyard
+quantum ledger database
 managed apache cassandra service
-managed blockchain
-managed services
-managed streaming for apache kafka
-management console
-migration hub
-mq
-neptune
-opsworks
-organizations
-outposts
-partner device catalog
+contact lens for amazon connect
+elemental appliances & software
+aws console mobile application
+aws database migration service
+amazon sagemaker ground truth
+simple storage service
+cloudendure disaster recovery
+application discovery service
+cloud development kit
+aws personal health dashboard
+amazon kinesis video streams
+amazon elasticsearch service
+aws server migration service
+simple email service
+aws deep learning containers
+simple queue service
+elastic block store
+reserved instance reporting
+fsx for windows file server
+amazon codeguru
+elastic file system
+aws elemental mediaconnect
+database migration service
+elastic container registry
+aws elemental mediaconvert
+aws elemental mediapackage
+elastic kubernetes service
+aws partner device catalog
+aws command line interface
+console mobile application
+aws cost and usage report
+aws iot device management
+amazon elastic transcoder
+aws elemental mediatailor
+amazon managed blockchain
+elastic container service
+aws well-architected tool
 personal health dashboard
-personalize
-pinpoint
-pinpoint
-polly
-privatelink
-quantum ledger database \(qldb\)
-quantum ledger database \(qldb\)
-quicksight
-rds
-rds on vmware
-redshift
-redshift
-rekognition
-reserved instance reporting
-reserved instance reporting
-robomaker
-route 53
-s3
-s3 glacier
-sagemaker
-sagemaker ground truth
-savings plans
-savings plans
 server migration service
-serverless application repository
-service catalog
-simple email service \(ses\)
-simple notification service \(sns\)
-simple queue service \(sqs\)
-simple storage service \(s3\)
-snow family
-snow family
-step functions
-storage gateway
-sumerian
-systems manager
-tensorflow on aws
-tensorflow on aws
-textract
-timestream
-tools and sdks
-transcribe
-transfer for sftp
-transit gateway
-trusted advisor
-vmware cloud on aws
-vmware cloud on aws
-vpc
-wavelength
+aws elemental mediastore
+amazon elastic inference
+contact lens for connect
+deep learning containers
+amazon ec2 auto scaling
+aws iot device defender
+aws elemental medialive
+aws global accelerator
+elemental mediapackage
+elemental mediaconnect
+sagemaker ground truth
+command line interface
+elastic load balancing
+elemental mediaconvert
+partner device catalog
+aws deep learning amis
+aws management console
+iot device management
+amazon fsx for lustre
+cost and usage report
 well-architected tool
-workdocs
-workdocs
-worklink
-workmail
+amazon fraud detector
+kinesis video streams
+aws transfer for sftp
+cloudendure migration
+elemental mediatailor
+elasticsearch service
+aws elastic beanstalk
+aws compute optimizer
+aws iot things graph
+amazon appstream 2.0
+codeguru
+amazon rds on vmware
+elemental mediastore
+aws managed services
+aws trusted advisor
+elemental medialive
+aws storage gateway
+amazon augmented ai
+vmware cloud on aws
+aws systems manager
+iot device defender
+aws service catalog
+aws license manager
+apache mxnet on aws
+aws transit gateway
+aws ground station
+aws direct connect
+aws tools and sdks
+deep learning amis
+managed blockchain
+elastic transcoder
+amazon api gateway
+amazon personalize
+aws cloudformation
+global accelerator
+amazon eventbridge
+management console
+aws step functions
+alexa for business
+aws lake formation
+amazon cloudsearch
+amazon elasticache
+amazon rekognition
+tensorflow on aws
+elastic beanstalk
+aws migration hub
+amazon workspaces
+amazon transcribe
+amazon cloudwatch
+amazon timestream
+amazon cloudfront
+compute optimizer
+amazon s3 glacier
+aws cost explorer
+amazon quicksight
+aws data exchange
+elastic inference
+aws data pipeline
+amazon inferentia
+aws iot analytics
+amazon lumberyard
+aws organizations
+transfer for sftp
+amazon comprehend
+aws control tower
+aws codepipeline
+aws deepcomposer
+amazon translate
+ec2 auto scaling
+iot things graph
+aws iot sitewise
+aws auto scaling
+amazon sagemaker
+amazon lightsail
+managed services
+systems manager
+amazon corretto
+aws snow family
+aws privatelink
+amazon gamelift
+amazon redshift
+amazon workmail
+amazon pinpoint
+amazon forecast
+amazon workdocs
+trusted advisor
+amazon dynamodb
+aws device farm
+amazon worklink
+amazon freertos
+amazon sumerian
+license manager
+storage gateway
+aws iot 1-click
+amazon textract
+transit gateway
+amazon route 53
+service catalog
+amazon neptune
+direct connect
+aws greengrass
+lake formation
+amazon kinesis
+aws codecommit
+amazon connect
+amazon appsync
+aws wavelength
+aws iot button
+aws codedeploy
+aws iot events
+aws cloudtrail
+cloudformation
+tools and sdks
+fsx for lustre
+fraud detector
+step functions
+ground station
+organizations
+rds on vmware
+data pipeline
+aws cloud map
+appstream 2.0
+control tower
+iot analytics
+aws robomaker
+data exchange
+migration hub
+amazon aurora
+amazon kendra
+aws deepracer
+amazon braket
+aws codebuild
+savings plans
+cost explorer
+amazon athena
+amazon chime
+aws opsworks
+deepcomposer
+auto scaling
+iot sitewise
+augmented ai
+aws deeplens
+aws outposts
+codepipeline
+aws datasync
+amazon polly
+aws iot core
+aws codestar
+aws app mesh
+elasticache
+aws budgets
+aws fargate
+eventbridge
+device farm
+api gateway
+aws chatbot
+aws amplify
+personalize
+iot 1-click
+cloudsearch
+snow family
+rekognition
+aws appsync
+privatelink
+aws cloud9
+inferentia
+transcribe
+amazon rds
+codedeploy
+amazon vpc
+cloudtrail
+wavelength
+s3 glacier
+amazon lex
+codecommit
+aws backup
+aws config
+cloudfront
+amazon emr
+cloudwatch
+iot button
+greengrass
+comprehend
+amazon ec2
 workspaces
+aws lambda
+timestream
+iot events
+quicksight
+lumberyard
+deepracer
+sagemaker
+cloud map
+robomaker
+amazon mq
+lightsail
+aws x-ray
+aws batch
+codebuild
+codestar
+worklink
+app mesh
+gamelift
+route 53
+workdocs
+textract
+aws glue
+redshift
+freertos
+datasync
+iot core
+opsworks
+pinpoint
+workmail
+dynamodb
+outposts
+corretto
+deeplens
+sumerian
+forecast
+amplify
+chatbot
+neptune
+appsync
+kinesis
+connect
+budgets
+fargate
+aurora
+cloud9
+kendra
+lambda
+braket
+config
+athena
+backup
+polly
+chime
 x-ray
+batch
+glue
+vpc
+rds
+lex
+emr
+ec2
+s3
+mq

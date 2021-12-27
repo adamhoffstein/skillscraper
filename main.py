@@ -26,6 +26,7 @@ for f in output_files:
     descriptions.append(" ".join(description.split()))
 
 df = pd.DataFrame({"descriptions": descriptions})
+df.to_csv("working.csv", index=False)
 df["index"] = df.index
 results = parse.group_keywords(keywords)
 

@@ -1,3 +1,4 @@
+from os import confstr
 import random
 from typing import List
 import requests
@@ -17,6 +18,7 @@ BASE_URL = (
 def request_descriptions(urls: List[str], location: str):
     client = AsyncClient(requests=urls)
     client.scrape()
+    logger.info(client.all_data)
     for n, data in enumerate(client.all_data):
         extract_to_file(f"output/{location}/result_{n}.txt", data)
 
@@ -34,12 +36,11 @@ def extract_to_file(path: str, data: str) -> None:
             file.write(content.text)
     else:
         logger.error(f"Unable to find any description.")
-        with open(path.replace(".txt","_error.txt"), "w") as file:
+        with open(path.replace(".txt", "_error.txt"), "w") as file:
             file.write(data)
 
 
-
-def virtual_scroll_to_file(keywords: str, location: str) -> None:
+def virtual_scroll_to_file(keywords: str, location: str, pages: int = 3) -> None:
     geo_ids = {
         "New+York,+New+York,+United+States": "102571732",
         "Berlin, Berlin, Germany": "106967730",
@@ -48,23 +49,27 @@ def virtual_scroll_to_file(keywords: str, location: str) -> None:
     s = requests.session()
     s.keep_alive = False
     headers = {"User-Agent": select_random_user_agent()}
-    for i in range(0, 75, 25):
-        search_params = {
-            "keywords": keywords,
-            "location": location,
-            "geoId": geo_ids[location],
-            "f_TPR": "r86400",
-            "distance": "25",
-            "position": "1",
-            "pageNum": "0",
-            "start": i,
-        }
-        req = Request("GET", BASE_URL, params=search_params, headers=headers)
-        logger.info(f"Preparing to send request to : {req.__dict__}")
-        req = s.prepare_request(req)
-        soup = BeautifulSoup(s.send(req).content, "html.parser")
-        links = get_links(soup)
-        time.sleep(random.uniform(0.4, 9.2))
-        logger.info(f"Added {len(links)} links.")
-        job_links.extend(links)
-    return list(set(job_links))
+    while len(job_links) == 0:
+        for i in range(0, 25, 25 * pages):
+            search_params = {
+                "keywords": keywords,
+                "location": location,
+                "geoId": geo_ids[location],
+                # Recency
+                "f_TPR": "r86400",
+                "distance": "25",
+                "position": "1",
+                "pageNum": "0",
+                "start": i,
+            }
+            req = Request(
+                "GET", BASE_URL, params=search_params, headers=headers
+            )
+            logger.info(f"Preparing to send request to : {req.__dict__}")
+            req = s.prepare_request(req)
+            soup = BeautifulSoup(s.send(req).content, "html.parser")
+            links = get_links(soup)
+            time.sleep(random.uniform(0.4, 9.2))
+            logger.info(f"Added {len(links)} links.")
+            job_links.extend(links)
+        return list(set(job_links))

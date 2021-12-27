@@ -2,3 +2,5 @@
 *.html
 *.log
 *.csv
+*.ipynb
+output/*/*.txt

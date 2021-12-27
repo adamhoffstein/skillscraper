@@ -30,6 +30,7 @@ def load_keywords(path: str):
 
 
 def get_keywords(description: str):
+    description = clean_text(description)
     keyword_paths = ["keywords.txt", "aws.txt"]
     keywords = []
     for path in keyword_paths:
@@ -50,3 +51,15 @@ def group_keywords(keywords: List[str]):
         .sort_values("occurs", ascending=False)
         .reset_index(drop=True)
     )
+
+
+def clean_text(text: str) -> str:
+    replacements = [
+        ("^\s+|\s+$", ""),
+        ("(?<=[.,])(?=[^\s])", " "),
+        ("(?<=[a-z])(?=[A-Z|\d])", " ")
+        ("|\)|\(|,|\.", " "),
+    ]
+    for pattern, replacement in replacements:
+        text = re.sub(pattern, replacement, text)
+    return text.lower()
