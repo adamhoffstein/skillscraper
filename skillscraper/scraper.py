@@ -1,4 +1,3 @@
-from os import confstr
 import random
 from typing import List
 import requests
@@ -10,9 +9,24 @@ from skillscraper.client import AsyncClient
 from skillscraper.log import logger
 from skillscraper.utils import select_random_user_agent
 
-BASE_URL = (
-    "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
-)
+class Scraper:
+    def __init__(self, location: str, keywords: str) -> None:
+        self.location = self._format_location(location)
+        self.keywords = keywords.replace(" ","+")
+        self.search_url_base = "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
+
+    def _format_location(self, location):
+        geo_ids = {
+            "nyc": ["New+York,+New+York,+United+States", "102571732"],
+            "berlin": ["Berlin, Berlin, Germany", "106967730"],
+        }
+        return geo_ids.get(location.lower())
+
+    def get_job_links(self, pages: int = 3):
+        client = AsyncClient()
+
+    
+
 
 
 def request_descriptions(urls: List[str], location: str):
@@ -73,3 +87,4 @@ def virtual_scroll_to_file(keywords: str, location: str, pages: int = 3) -> None
             logger.info(f"Added {len(links)} links.")
             job_links.extend(links)
         return list(set(job_links))
+

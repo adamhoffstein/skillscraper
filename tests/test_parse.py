@@ -10,7 +10,7 @@ class TestParse:
         assert len(result) >= 0
 
     def test_read_local_text_error(self):
-        with raises(Exception) as e:
+        with raises(FileNotFoundError):
             parse.read_local_text("tests/doesnotexist.txt")
 
     def test_read_local(self):

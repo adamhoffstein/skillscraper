@@ -2,35 +2,40 @@ from pathlib import Path
 from datetime import datetime
 import pandas as pd
 from skillscraper import parse, scraper
+from skillscraper.scraper import Scraper
 
 LOCATION = "nyc"
+KEYWORDS="Data Engineer"
 
-jobs = scraper.virtual_scroll_to_file(
-    keywords="Data+Engineer", location="New+York,+New+York,+United+States"
-)
 
-todaydate = str(datetime.utcnow().date())
+# jobs = scraper.virtual_scroll_to_file(
+#     keywords="Data+Engineer", location="New+York,+New+York,+United+States"
+# )
 
-scraper.request_descriptions(urls=jobs, location=LOCATION)
+# todaydate = str(datetime.utcnow().date())
 
-path = Path(f"./output/{LOCATION}/")
-output_files = [p for p in path.iterdir() if p.suffix == ".txt"]
+# scraper.request_descriptions(urls=jobs, location=LOCATION)
 
-descriptions = []
+# path = Path(f"./output/{LOCATION}/")
+# output_files = [p for p in path.iterdir() if p.suffix == ".txt"]
 
-keywords = []
+# descriptions = []
 
-for f in output_files:
-    description = parse.read_local_text(f)
-    keywords.extend(parse.get_keywords(description))
-    descriptions.append(" ".join(description.split()))
+# keywords = []
 
-df = pd.DataFrame({"descriptions": descriptions})
-df.to_csv("working.csv", index=False)
-df["index"] = df.index
-results = parse.group_keywords(keywords)
+# for f in output_files:
+#     description = parse.read_local_text(f)
+#     keywords.extend(parse.get_keywords(description))
+#     descriptions.append(" ".join(description.split()))
 
-print(results.head(50))
+# df = pd.DataFrame({"descriptions": descriptions})
+# df.to_csv("working.csv", index=False)
+# df["index"] = df.index
+# results = parse.group_keywords(keywords)
 
-df.to_csv(f"output/descriptions_{todaydate}.csv", index=False)
-results.to_csv(f"output/results_{todaydate}.csv", index=False)
+# print(results.head(50))
+
+# df.to_csv(f"output/descriptions_{todaydate}.csv", index=False)
+# results.to_csv(f"output/results_{todaydate}.csv", index=False)
+
+scraper = Scraper(location=LOCATION, keywords=KEYWORDS)

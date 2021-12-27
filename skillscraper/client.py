@@ -40,7 +40,7 @@ class AsyncClient:
         tries = 0
         while tries < 5:
             try:
-                async with session.get(url) as response:
+                async with session.get(url, allow_redirects=False) as response:
                     response = await response.text()
                     if "<!DOCTYPE html>" in response:
                         return response
