@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 import random
 from typing import List
@@ -35,3 +36,15 @@ def divide_chunks(items: list, n: int):
 def create_dir_if_not_exists(path: str) -> None:
     if not Path(path).exists():
         Path(path).mkdir(parents=True)
+
+
+def benchmark(func):
+    def _timing(*args, **kwargs):
+        start = time.perf_counter()
+        r = func(*args, **kwargs)
+        logger.debug(
+            f"{func.__name__} execution: {time.perf_counter() - start} seconds"
+        )
+        return r
+
+    return _timing

@@ -1,9 +1,6 @@
-from datetime import datetime
 from typing import List
 import urllib
 from bs4 import BeautifulSoup
-from numpy import fabs
-import pandas as pd
 from skillscraper import utils
 from skillscraper.parse import get_links, extract_to_file
 from skillscraper.client import AsyncClient
@@ -13,17 +10,16 @@ from skillscraper.utils import TODAY_DATE
 
 class Scraper:
     def __init__(self, location: str, keywords: str) -> None:
-        self.raw_location = location
-        self.location = self._format_location(location)
+        self.location = location.replace(" ", "+")
         self.keywords = keywords.replace(" ", "+")
         self.job_links = []
+        self.job_descriptions = []
 
-    def _format_location(self, location):
-        locations = {
-            "nyc": ["New+York,+New+York,+United+States", "102571732"],
-            "berlin": ["Berlin, Berlin, Germany", "106967730"],
-        }
-        return locations.get(location.lower())
+    @property
+    def target_path(self):
+        return (
+            "output/" + self.location.lower().replace("+", "_").split(",")[0]
+        )
 
     def get_job_links(self, pages: int = 3):
         search_url_base = "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?"
@@ -31,9 +27,8 @@ class Scraper:
         for i in range(0, 25 * pages, 25):
             search_params = {
                 "keywords": self.keywords,
-                "location": self.location[0],
-                "geoId": self.location[1],
-                # Recency
+                "location": self.location,
+                # Recency 86400 / 60 / 60 = 24 hours
                 "f_TPR": "r86400",
                 "distance": "25",
                 "position": "1",
@@ -41,6 +36,7 @@ class Scraper:
                 "start": i,
             }
             url = search_url_base + urllib.parse.urlencode(search_params)
+            logger.info(f"Adding {url} to search queue")
             search_urls.append(url)
         client = AsyncClient(requests=search_urls)
         client.scrape()
@@ -50,6 +46,8 @@ class Scraper:
             links = get_links(soup)
             if links:
                 self.job_links.extend(links)
+        if self.job_links:
+            logger.info(f"Extracted {len(self.job_links)} job link(s)")
 
     def get_job_descriptions(self):
         client = AsyncClient(requests=self.job_links, verify_html=True)
@@ -63,12 +61,11 @@ class Scraper:
         self.get_job_descriptions()
         if self.job_descriptions:
             if save:
-                target_path = f"output/{self.raw_location}"
-                logger.info(f"Saving job descriptions to {target_path}")
-                utils.create_dir_if_not_exists(target_path)
+                logger.info(f"Saving job descriptions to {self.target_path}")
+                utils.create_dir_if_not_exists(self.target_path)
                 for n, data in enumerate(self.job_descriptions):
                     extract_to_file(
-                        f"{target_path}/{TODAY_DATE}_{n}.txt", data
+                        f"{self.target_path}/{TODAY_DATE}_{n}.txt", data
                     )
             return self.job_descriptions
         raise Exception("Scrape job returned no data")
