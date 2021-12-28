@@ -12,6 +12,7 @@ class AsyncClient:
         self,
         requests: List[str],
         chunksize: int = 5,
+        verify_html: bool = False,
         wait_time: Tuple[float] = (0.5, 9.0),
     ) -> None:
         self.user_agent = select_random_user_agent()
@@ -19,16 +20,20 @@ class AsyncClient:
         self.request_chunks = list(divide_chunks(requests, chunksize))
         self.wait_time = wait_time
         self.all_data = []
+        self.verify = verify_html
 
     def change_user_agent(self):
         self.user_agent = select_random_user_agent()
 
     def scrape(self):
-        for chunk in self.request_chunks:
+        for n, chunk in enumerate(self.request_chunks):
             logger.info(f"Sending {len(chunk)} requests")
             asyncio.run(self.runner(chunk))
-            self.change_user_agent()
-            self._wait()
+
+            # if this is not the last chunk, wait until next request
+            if n + 1 < len(self.request_chunks):
+                self.change_user_agent()
+                self._wait()
         self.all_data = [d for d in self.all_data if d]
 
     def _wait(self):
@@ -42,7 +47,7 @@ class AsyncClient:
             try:
                 async with session.get(url, allow_redirects=False) as response:
                     response = await response.text()
-                    if "<!DOCTYPE html>" in response:
+                    if "<!DOCTYPE html>" in response or not self.verify:
                         return response
                     logger.info(f"Retrying: {url}")
                     self._wait()

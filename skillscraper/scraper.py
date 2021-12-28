@@ -1,74 +1,41 @@
-import random
+from datetime import datetime
 from typing import List
-import requests
-import time
+import urllib
 from bs4 import BeautifulSoup
-from requests.sessions import Request
-from skillscraper.parse import get_links
+from numpy import fabs
+import pandas as pd
+from skillscraper import utils
+from skillscraper import parse
+from skillscraper.parse import get_links, extract_to_file
 from skillscraper.client import AsyncClient
 from skillscraper.log import logger
-from skillscraper.utils import select_random_user_agent
+
+
+TODAY_DATE = str(datetime.utcnow().date())
+
 
 class Scraper:
     def __init__(self, location: str, keywords: str) -> None:
+        self.raw_location = location
         self.location = self._format_location(location)
-        self.keywords = keywords.replace(" ","+")
-        self.search_url_base = "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"
+        self.keywords = keywords.replace(" ", "+")
+        self.job_links = []
 
     def _format_location(self, location):
-        geo_ids = {
+        locations = {
             "nyc": ["New+York,+New+York,+United+States", "102571732"],
             "berlin": ["Berlin, Berlin, Germany", "106967730"],
         }
-        return geo_ids.get(location.lower())
+        return locations.get(location.lower())
 
     def get_job_links(self, pages: int = 3):
-        client = AsyncClient()
-
-    
-
-
-
-def request_descriptions(urls: List[str], location: str):
-    client = AsyncClient(requests=urls)
-    client.scrape()
-    logger.info(client.all_data)
-    for n, data in enumerate(client.all_data):
-        extract_to_file(f"output/{location}/result_{n}.txt", data)
-
-
-def extract_to_file(path: str, data: str) -> None:
-    logger.debug(f"Extracting text from div with {len(data)} characters")
-    soup = BeautifulSoup(data, "html.parser")
-    if content := soup.find(
-        "div",
-        {
-            "class": "show-more-less-html__markup show-more-less-html__markup--clamp-after-5"
-        },
-    ):
-        with open(path, "w") as file:
-            file.write(content.text)
-    else:
-        logger.error(f"Unable to find any description.")
-        with open(path.replace(".txt", "_error.txt"), "w") as file:
-            file.write(data)
-
-
-def virtual_scroll_to_file(keywords: str, location: str, pages: int = 3) -> None:
-    geo_ids = {
-        "New+York,+New+York,+United+States": "102571732",
-        "Berlin, Berlin, Germany": "106967730",
-    }
-    job_links = []
-    s = requests.session()
-    s.keep_alive = False
-    headers = {"User-Agent": select_random_user_agent()}
-    while len(job_links) == 0:
-        for i in range(0, 25, 25 * pages):
+        search_url_base = "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?"
+        search_urls = []
+        for i in range(0, 25 * pages, 25):
             search_params = {
-                "keywords": keywords,
-                "location": location,
-                "geoId": geo_ids[location],
+                "keywords": self.keywords,
+                "location": self.location[0],
+                "geoId": self.location[1],
                 # Recency
                 "f_TPR": "r86400",
                 "distance": "25",
@@ -76,15 +43,46 @@ def virtual_scroll_to_file(keywords: str, location: str, pages: int = 3) -> None
                 "pageNum": "0",
                 "start": i,
             }
-            req = Request(
-                "GET", BASE_URL, params=search_params, headers=headers
-            )
-            logger.info(f"Preparing to send request to : {req.__dict__}")
-            req = s.prepare_request(req)
-            soup = BeautifulSoup(s.send(req).content, "html.parser")
+            url = search_url_base + urllib.parse.urlencode(search_params)
+            search_urls.append(url)
+        client = AsyncClient(requests=search_urls)
+        client.scrape()
+        for job in client.all_data:
+            soup = BeautifulSoup(job, "html.parser")
             links = get_links(soup)
-            time.sleep(random.uniform(0.4, 9.2))
-            logger.info(f"Added {len(links)} links.")
-            job_links.extend(links)
-        return list(set(job_links))
+            if links:
+                self.job_links.extend(links)
 
+    def get_job_descriptions(self):
+        client = AsyncClient(requests=self.job_links, verify_html=True)
+        client.scrape()
+        if client.all_data:
+            self.job_descriptions = client.all_data
+
+    def get_job_data(self, pages: int = 3, save: bool = True) -> List[str]:
+        self.get_job_links(pages=pages)
+        self.get_job_descriptions()
+        if self.job_descriptions:
+            if save:
+                target_path = f"output/{self.raw_location}"
+                utils.create_dir_if_not_exists(target_path)
+                for n, data in enumerate(self.job_descriptions):
+                    extract_to_file(
+                        f"{target_path}/{TODAY_DATE}_{n}.txt", data
+                    )
+            return self.job_descriptions
+        raise Exception("Scrape job returned no data")
+
+
+def get_job_keywords(descriptions: List[str], location: str):
+    keywords = []
+    for description in descriptions:
+        keywords.extend(parse.get_keywords(description))
+    results = parse.group_keywords(keywords)
+    logger.info("Results:")
+    logger.info(results.head(50))
+    target_path = f"output/{location}"
+    target_file = f"{target_path}/{TODAY_DATE}_results.csv"
+    utils.create_dir_if_not_exists(target_path)
+    results.to_csv(target_file, index=False)
+    logger.info(f'Saved to: "{location}"')

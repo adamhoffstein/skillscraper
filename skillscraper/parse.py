@@ -13,7 +13,7 @@ def read_local_text(path: str) -> str:
     return text
 
 
-def read_local(path: str) -> BeautifulSoup:
+def read_local_html(path: str) -> BeautifulSoup:
     logger.info(f"Reading {path}")
     with open(path) as fp:
         soup = BeautifulSoup(fp, "html.parser")
@@ -57,9 +57,25 @@ def clean_text(text: str) -> str:
     replacements = [
         ("^\s+|\s+$", ""),
         ("(?<=[.,])(?=[^\s])", " "),
-        ("(?<=[a-z])(?=[A-Z|\d])", " ")
-        ("|\)|\(|,|\.", " "),
+        ("(?<=[a-z])(?=[A-Z|\d])", " "),
     ]
     for pattern, replacement in replacements:
         text = re.sub(pattern, replacement, text)
     return text.lower()
+
+
+def extract_to_file(path: str, data: str) -> None:
+    logger.debug(f"Extracting text from div with {len(data)} characters")
+    soup = BeautifulSoup(data, "html.parser")
+    if content := soup.find(
+        "div",
+        {
+            "class": "show-more-less-html__markup show-more-less-html__markup--clamp-after-5"
+        },
+    ):
+        with open(path, "w") as file:
+            file.write(content.text)
+    else:
+        logger.error(f"Unable to find any description.")
+        with open(path.replace(".txt", "_error.txt"), "w") as file:
+            file.write(data)

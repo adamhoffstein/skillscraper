@@ -5,6 +5,7 @@ from importlib.resources import read_text
 from pathlib import Path
 from skillscraper.log import logger
 
+
 @lru_cache
 def read_internal_file(path: str) -> str:
     logger.info(f"Reading {path}")
@@ -27,7 +28,7 @@ def divide_chunks(items: list, n: int):
     for i in range(0, len(items), n):
         yield items[i : i + n]
 
+
 def create_dir_if_not_exists(path: str) -> None:
     if not Path(path).exists():
         Path(path).mkdir(parents=True)
-    
