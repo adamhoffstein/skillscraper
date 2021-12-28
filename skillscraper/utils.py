@@ -1,9 +1,12 @@
+from datetime import datetime
 import random
 from typing import List
 from functools import lru_cache
 from importlib.resources import read_text
 from pathlib import Path
 from skillscraper.log import logger
+
+TODAY_DATE = str(datetime.utcnow().date())
 
 
 @lru_cache

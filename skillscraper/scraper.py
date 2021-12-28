@@ -5,13 +5,10 @@ from bs4 import BeautifulSoup
 from numpy import fabs
 import pandas as pd
 from skillscraper import utils
-from skillscraper import parse
 from skillscraper.parse import get_links, extract_to_file
 from skillscraper.client import AsyncClient
 from skillscraper.log import logger
-
-
-TODAY_DATE = str(datetime.utcnow().date())
+from skillscraper.utils import TODAY_DATE
 
 
 class Scraper:
@@ -47,6 +44,7 @@ class Scraper:
             search_urls.append(url)
         client = AsyncClient(requests=search_urls)
         client.scrape()
+        logger.info("Finished scraping job links from search page")
         for job in client.all_data:
             soup = BeautifulSoup(job, "html.parser")
             links = get_links(soup)
@@ -56,6 +54,7 @@ class Scraper:
     def get_job_descriptions(self):
         client = AsyncClient(requests=self.job_links, verify_html=True)
         client.scrape()
+        logger.info("Finished scraping job descriptions")
         if client.all_data:
             self.job_descriptions = client.all_data
 
@@ -65,6 +64,7 @@ class Scraper:
         if self.job_descriptions:
             if save:
                 target_path = f"output/{self.raw_location}"
+                logger.info(f"Saving job descriptions to {target_path}")
                 utils.create_dir_if_not_exists(target_path)
                 for n, data in enumerate(self.job_descriptions):
                     extract_to_file(
@@ -72,17 +72,3 @@ class Scraper:
                     )
             return self.job_descriptions
         raise Exception("Scrape job returned no data")
-
-
-def get_job_keywords(descriptions: List[str], location: str):
-    keywords = []
-    for description in descriptions:
-        keywords.extend(parse.get_keywords(description))
-    results = parse.group_keywords(keywords)
-    logger.info("Results:")
-    logger.info(results.head(50))
-    target_path = f"output/{location}"
-    target_file = f"{target_path}/{TODAY_DATE}_results.csv"
-    utils.create_dir_if_not_exists(target_path)
-    results.to_csv(target_file, index=False)
-    logger.info(f'Saved to: "{location}"')

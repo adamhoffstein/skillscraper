@@ -1,4 +1,4 @@
-from skillscraper.scraper import Scraper, get_job_keywords
+from skillscraper import Scraper, get_job_keywords
 
 LOCATION = "nyc"
 KEYWORDS = "Data Engineer"

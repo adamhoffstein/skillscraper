@@ -2,7 +2,8 @@ import re
 import pandas as pd
 from typing import List
 from bs4 import BeautifulSoup
-from skillscraper.utils import read_internal_file_list
+from skillscraper import utils
+from skillscraper.utils import TODAY_DATE, read_internal_file_list
 from skillscraper.log import logger
 
 
@@ -79,3 +80,17 @@ def extract_to_file(path: str, data: str) -> None:
         logger.error(f"Unable to find any description.")
         with open(path.replace(".txt", "_error.txt"), "w") as file:
             file.write(data)
+
+
+def get_job_keywords(descriptions: List[str], location: str):
+    keywords = []
+    for description in descriptions:
+        keywords.extend(get_keywords(description))
+    results = group_keywords(keywords)
+    logger.info("Results:")
+    logger.info(results.head(50))
+    target_path = f"output/{location}"
+    target_file = f"{target_path}/{TODAY_DATE}_results.csv"
+    utils.create_dir_if_not_exists(target_path)
+    results.to_csv(target_file, index=False)
+    logger.info(f'Saved to: "{location}"')
