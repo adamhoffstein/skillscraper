@@ -6,12 +6,15 @@ from typing import List, Tuple
 from skillscraper.utils import divide_chunks, select_random_user_agent
 from skillscraper.log import logger
 
+IP = "65.18.114.254"
+PORT = "55443"
+PROXY = f"http://{IP}:{PORT}"
 
 class AsyncClient:
     def __init__(
         self,
         requests: List[str],
-        chunksize: int = 5,
+        chunksize: int = 1,
         verify_html: bool = False,
         wait_time: Tuple[float] = (0.5, 9.0),
     ) -> None:
@@ -45,7 +48,7 @@ class AsyncClient:
         tries = 0
         while tries < 5:
             try:
-                async with session.get(url, allow_redirects=False) as response:
+                async with session.get(url, allow_redirects=False, proxy=PROXY) as response:
                     response = await response.text()
                     if "<!DOCTYPE html>" in response or not self.verify:
                         return response

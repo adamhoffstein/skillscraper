@@ -1,10 +1,11 @@
 import asyncio
+from functools import cached_property
 import re
 import pandas as pd
 from typing import List
 from bs4 import BeautifulSoup
 from skillscraper import utils
-from skillscraper.utils import TODAY_DATE, read_internal_file_list, benchmark
+from skillscraper.utils import TODAY_DATE, read_internal_file_list, benchmark, flatten
 from skillscraper.log import logger
 
 
@@ -27,9 +28,6 @@ def get_links(soup: BeautifulSoup) -> List[str]:
     return [link.get("href") for link in links if link.get("href")]
 
 
-async def load_keywords(path: str):
-    return read_internal_file_list(path)
-
 @benchmark
 def group_keywords(keywords: List[str]):
     df = pd.DataFrame({"keyword": keywords})
@@ -44,24 +42,11 @@ def group_keywords(keywords: List[str]):
 
 
 @benchmark
-async def get_keywords_task(description: str):
-    description = await clean_text(description)
-    keyword_paths = ["keywords.txt", "aws.txt"]
-    keywords = []
-    for path in keyword_paths:
-        keywords.extend(await load_keywords(path))
-    keywords = " | ".join(list(set(keywords)))
-    return [
-        i.lower() for i in re.findall(keywords, description, re.IGNORECASE)
-    ]
-
-
-@benchmark
-async def clean_text(text: str) -> str:
+def clean_text(text: str) -> str:
     replacements = [
-        ("^\s+|\s+$", ""),
-        ("(?<=[.,])(?=[^\s])", " "),
-        ("(?<=[a-z])(?=[A-Z|\d])", " "),
+        (r"^\s+|\s+$", ""),
+        (r"(?<=[.,])(?=[^\s])", " "),
+        (r"(?<=[a-z])(?=[A-Z|\d])", " "),
     ]
     logger.info(f"Cleaning text from div with {len(text)} characters")
     for pattern, replacement in replacements:
@@ -87,70 +72,31 @@ def extract_to_file(path: str, data: str) -> None:
             file.write(data)
 
 
-@benchmark
-async def get_keywords_task(description: str):
-    description = await clean_text(description)
-    keyword_paths = ["keywords.txt", "aws.txt"]
-    keywords = []
-    for path in keyword_paths:
-        keywords.extend(await load_keywords(path))
-    keywords = " | ".join(list(set(keywords)))
-    return [
-        i.lower() for i in re.findall(keywords, description, re.IGNORECASE)
-    ]
-
-
-@benchmark
-async def keyword_runner(descriptions: List[str]):
-    tasks = []
-    for description in descriptions:
-        tasks.append(get_keywords_task(description))
-    results = await asyncio.gather(*tasks)
-    print(results)
-    return results
-
-
-# @benchmark
-# async def clean_text_runner(descriptions: List[str]):
-#     tasks = []
-#     all_results = []
-#     for description in descriptions:
-#         tasks.append(get_keywords_task(description))
-#     results = await asyncio.gather(*tasks)
-#     all_results.extend(results)
-#     return all_results
-
-
-@benchmark
-def get_job_keywords(descriptions: List[str], target_path: str):
-    keywords = asyncio.run(keyword_runner(descriptions))
-    results = group_keywords(keywords)
-    logger.info("Results:")
-    logger.info(results.head(50))
-    target_file = f"{target_path}/{TODAY_DATE}_results.csv"
-    utils.create_dir_if_not_exists(target_path)
-    results.to_csv(target_file, index=False)
-    logger.info(f'Saved to: "{target_file}"')
-
-
 class Extractor:
-    def __init__(self, descriptions: List[str], target_path: str) -> None:
-        self.all_keywords = []
+    def __init__(
+        self,
+        descriptions: List[str],
+        target_path: str,
+        keyword_paths: List[str] = ["keywords.txt", "aws.txt"],
+    ) -> None:
+        self.keyword_paths = keyword_paths
         self.descriptions = descriptions
         self.target_path = target_path
 
-    @property
+    @cached_property
+    @benchmark
     def clean_descriptions(self):
-        loop = asyncio.get_event_loop()
-        tasks = []
-        for item in self.descriptions:
-            tasks.append(self.clean_text_task(item))
-        result = loop.run_until_complete(asyncio.gather(*tasks))
-        loop.close()
-        return result        
+        return [self.clean_text(d) for d in self.descriptions]
 
+    @cached_property
+    def search_keys(self):
+        keywords = []
+        for path in self.keyword_paths:
+            keywords.extend(read_internal_file_list(path))
+        return " | ".join(list(set(keywords)))
 
-    @property
+    @cached_property
+    @benchmark
     def keywords(self):
         loop = asyncio.get_event_loop()
         tasks = []
@@ -158,17 +104,33 @@ class Extractor:
             tasks.append(self.get_keywords_task(item))
         result = loop.run_until_complete(asyncio.gather(*tasks))
         loop.close()
-        return result
-        
+        return flatten(result)
+
+    @cached_property
+    @benchmark
+    def grouped_keywords(self):
+        results = group_keywords(self.keywords)
+        target_file = f"{self.target_path}/{TODAY_DATE}_results.csv"
+        utils.create_dir_if_not_exists(self.target_path)
+        results.to_csv(target_file, index=False)
+        logger.info(f'Saved to: "{target_file}"')
+        return results
 
     @benchmark
-    async def clean_text_task(self, text: str) -> str:
+    def clean_text(self, text: str) -> str:
         replacements = [
-            ("^\s+|\s+$", ""),
-            ("(?<=[.,])(?=[^\s])", " "),
-            ("(?<=[a-z])(?=[A-Z|\d])", " "),
+            (r"^\s+|\s+$", ""),
+            (r"(?<=[.,])(?=[^\s])", " "),
+            (r"(?<=[a-z])(?=[A-Z|\d])", " "),
         ]
         logger.info(f"Cleaning text from div with {len(text)} characters")
         for pattern, replacement in replacements:
             text = re.sub(pattern, replacement, text)
         return text.lower()
+
+    @benchmark
+    async def get_keywords_task(self, item: str):
+        return [
+            i.lower()
+            for i in re.findall(self.search_keys, item, re.IGNORECASE)
+        ]

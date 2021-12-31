@@ -48,3 +48,6 @@ def benchmark(func):
         return r
 
     return _timing
+
+def flatten(t):
+    return [item for sublist in t for item in sublist]
