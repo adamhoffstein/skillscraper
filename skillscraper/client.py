@@ -10,11 +10,12 @@ IP = "65.18.114.254"
 PORT = "55443"
 PROXY = f"http://{IP}:{PORT}"
 
+
 class AsyncClient:
     def __init__(
         self,
         requests: List[str],
-        chunksize: int = 1,
+        chunksize: int = 3,
         verify_html: bool = False,
         wait_time: Tuple[float] = (0.5, 9.0),
     ) -> None:
@@ -48,7 +49,8 @@ class AsyncClient:
         tries = 0
         while tries < 5:
             try:
-                async with session.get(url, allow_redirects=False, proxy=PROXY) as response:
+                logger.debug(f"Sending GET request to {url}")
+                async with session.get(url, allow_redirects=False) as response:
                     response = await response.text()
                     if "<!DOCTYPE html>" in response or not self.verify:
                         return response

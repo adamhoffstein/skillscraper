@@ -5,7 +5,12 @@ import pandas as pd
 from typing import List
 from bs4 import BeautifulSoup
 from skillscraper import utils
-from skillscraper.utils import TODAY_DATE, read_internal_file_list, benchmark, flatten
+from skillscraper.utils import (
+    TODAY_DATE,
+    read_internal_file_list,
+    benchmark,
+    flatten,
+)
 from skillscraper.log import logger
 
 
