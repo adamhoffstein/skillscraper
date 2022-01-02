@@ -34,16 +34,18 @@ def get_links(soup: BeautifulSoup) -> List[str]:
 
 
 @benchmark
-def group_keywords(keywords: List[str]):
+def group_keywords(keywords: List[str], amount_jobs: int):
     df = pd.DataFrame({"keyword": keywords})
     df["keyword"] = df["keyword"].str.strip()
     df["occurs"] = 1
-    return (
+    df = (
         df.groupby("keyword", as_index=False)
         .agg({"occurs": "sum"})
         .sort_values("occurs", ascending=False)
         .reset_index(drop=True)
     )
+    df["occurs_rate"] = df["occurs"] / amount_jobs * 100
+    return df
 
 
 @benchmark
@@ -103,18 +105,19 @@ class Extractor:
     @cached_property
     @benchmark
     def keywords(self):
-        loop = asyncio.get_event_loop()
+        result = asyncio.run(self.keyword_runner())
+        return flatten(result)
+
+    async def keyword_runner(self):
         tasks = []
         for item in self.clean_descriptions:
             tasks.append(self.get_keywords_task(item))
-        result = loop.run_until_complete(asyncio.gather(*tasks))
-        loop.close()
-        return flatten(result)
+        return await asyncio.gather(*tasks)
 
     @cached_property
     @benchmark
     def grouped_keywords(self):
-        results = group_keywords(self.keywords)
+        results = group_keywords(self.keywords, len(self.descriptions))
         target_file = f"{self.target_path}/{TODAY_DATE}_results.csv"
         utils.create_dir_if_not_exists(self.target_path)
         results.to_csv(target_file, index=False)
@@ -127,6 +130,7 @@ class Extractor:
             (r"^\s+|\s+$", ""),
             (r"(?<=[.,])(?=[^\s])", " "),
             (r"(?<=[a-z])(?=[A-Z|\d])", " "),
+            (r"\."," ")
         ]
         logger.info(f"Cleaning text from div with {len(text)} characters")
         for pattern, replacement in replacements:

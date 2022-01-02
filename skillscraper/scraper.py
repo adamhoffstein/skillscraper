@@ -9,9 +9,12 @@ from skillscraper.utils import TODAY_DATE
 
 
 class Scraper:
-    def __init__(self, location: str, keywords: str) -> None:
+    def __init__(
+        self, location: str, keywords: str, use_proxy: bool = False
+    ) -> None:
         self.location = location.replace(" ", "+")
         self.keywords = keywords.replace(" ", "+")
+        self.use_proxy = use_proxy
         self.job_links = []
         self.job_descriptions = []
 
@@ -38,7 +41,7 @@ class Scraper:
             url = search_url_base + urllib.parse.urlencode(search_params)
             logger.info(f"Adding {url} to search queue")
             search_urls.append(url)
-        client = AsyncClient(requests=search_urls)
+        client = AsyncClient(requests=search_urls, use_proxy=self.use_proxy)
         client.scrape()
         logger.info("Finished scraping job links from search page")
         for job in client.all_data:

@@ -1,5 +1,4 @@
 import bs4
-from numpy import exp
 from skillscraper import parse
 from pytest import raises
 

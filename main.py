@@ -1,18 +1,19 @@
 from skillscraper import Scraper, Extractor
+from skillscraper.utils import TODAY_DATE
 from skillscraper.parse import read_local_text
 from pathlib import Path
 
-LOCATION = "Berlin, Berlin, Germany"
+LOCATION = "Los Angeles, California, United States"
 KEYWORDS = "Data Engineer"
 
-job_scraper = Scraper(location=LOCATION, keywords=KEYWORDS)
+job_scraper = Scraper(location=LOCATION, keywords=KEYWORDS, use_proxy=True)
 
-descriptions = job_scraper.get_job_data(pages=1)
+# job_scraper.get_job_data(pages=2)
 
 descriptions = [
     read_local_text(file)
     for file in Path(job_scraper.target_path).iterdir()
-    if file.suffix == ".txt"
+    if file.suffix == ".txt" and TODAY_DATE in file.name
 ]
 
 keyword_extractor = Extractor(

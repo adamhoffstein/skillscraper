@@ -5,6 +5,10 @@ from typing import List
 from functools import lru_cache
 from importlib.resources import read_text
 from pathlib import Path
+from bs4 import BeautifulSoup
+
+import pandas as pd
+import requests
 from skillscraper.log import logger
 
 TODAY_DATE = str(datetime.utcnow().date())
@@ -43,7 +47,7 @@ def benchmark(func):
         start = time.perf_counter()
         r = func(*args, **kwargs)
         logger.debug(
-            f"{func.__name__} execution: {time.perf_counter() - start} seconds"
+            f"{func.__name__} execution: {round(time.perf_counter() - start, 2)} seconds"
         )
         return r
 
@@ -52,3 +56,34 @@ def benchmark(func):
 
 def flatten(t):
     return [item for sublist in t for item in sublist]
+
+
+def get_proxy_table(data: str):
+    logger.debug(
+        f"Extracting text from html document with {len(data)} characters"
+    )
+    soup = BeautifulSoup(data, "html.parser")
+    if content := soup.find(
+        "table", {"class": "table table-striped table-bordered"}
+    ):
+        return str(content)
+    raise Exception("Unable to find any proxies in html data")
+
+
+@lru_cache
+def get_proxy_list():
+    url = "https://free-proxy-list.net/anonymous-proxy.html"
+    logger.info(f"Getting proxies from {url}")
+    response = requests.get(url)
+    if response.content:
+        proxy_raw = get_proxy_table(response.content)
+        proxy_df = pd.read_html(proxy_raw)[0]
+        proxy_df.columns = [
+            c.lower().replace(" ", "_") for c in proxy_df.columns
+        ]
+        viable_proxies = proxy_df.loc[
+            (proxy_df.anonymity == "anonymous") & (proxy_df.https == "yes")
+        ]
+        if not viable_proxies.empty:
+            return viable_proxies.to_records(index=False)
+    raise Exception("Unable to fetch data from free-proxy-list.net")
