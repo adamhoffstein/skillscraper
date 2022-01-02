@@ -100,7 +100,7 @@ class Extractor:
         keywords = []
         for path in self.keyword_paths:
             keywords.extend(read_internal_file_list(path))
-        return " | ".join(list(set(keywords)))
+        return r" | ".join(list(set(keywords)))
 
     @cached_property
     @benchmark
@@ -130,7 +130,7 @@ class Extractor:
             (r"^\s+|\s+$", ""),
             (r"(?<=[.,])(?=[^\s])", " "),
             (r"(?<=[a-z])(?=[A-Z|\d])", " "),
-            (r"\."," ")
+            (r"[\.|-]", " "),
         ]
         logger.info(f"Cleaning text from div with {len(text)} characters")
         for pattern, replacement in replacements:
@@ -140,6 +140,6 @@ class Extractor:
     @benchmark
     async def get_keywords_task(self, item: str):
         return [
-            i.lower()
+            i.lower().strip()
             for i in re.findall(self.search_keys, item, re.IGNORECASE)
         ]
