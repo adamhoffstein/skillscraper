@@ -1,0 +1,2 @@
+
+Job Title -Data Engineer Job Type- ContractJob Location- Plano, TX Visa independent Candidates preferred, no sponsorships will be provided.Job DescriptionMandatory skills• AWS Hadoop, AWS S3, SQL, Linux/Unix commands• AWS architecture• Python, OOP, Java• ETL, OOP, GitGood to have skills•	AWS SQS or other queueing technology, AWS EKS, Terraform, AWS EMR, AWS Redshift, Apache Airflow•	AWS Glue, T-SQL, Java, PySpark, Kafka, Spark, Bit Bucket﻿

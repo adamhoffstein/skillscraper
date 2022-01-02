@@ -1,0 +1,2 @@
+
+Title: Data EngineerLocation: Plano, TXType: ContractVisa independent candidates preferred, No sponsorships will be provided.Job Description;4-8 years: AWS Hadoop, AWS S3, SQL, Linux/Unix commands4+ years: AWS architecture4-8 years: Python, OOP, Java4-8 years: ETL, OOP, GitNice to have;3-8 years: AWS SQS or other queueing technology, AWS EKS, Terraform, AWS EMR, AWS Redshift, Apache Airflow2- 5 years: AWS Glue, T-SQL, Java, PySpark, Kafka, Spark, Bit Bucket
