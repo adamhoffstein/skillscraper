@@ -3,8 +3,8 @@ from skillscraper.utils import TODAY_DATE
 from skillscraper.parse import read_local_text
 from pathlib import Path
 
-LOCATION = "Hong Kong, Hong Kong SAR"
-KEYWORDS = "Data Engineer"
+LOCATION = "Put a location here"
+KEYWORDS = "Software Engineer"
 
 job_scraper = Scraper(location=LOCATION, keywords=KEYWORDS, use_proxy=True)
 

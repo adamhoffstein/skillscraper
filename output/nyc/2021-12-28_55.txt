@@ -1,2 +1,0 @@
-
-Data analysis and validation requested by this group. Build spreadsheets to display data collected to support various team projects. Create SQL queries and MS Access queries as needed to perform analysis. Collect, collate and analyze results of surveys and interviews. Prepare, author, review and/or organize team documentation.

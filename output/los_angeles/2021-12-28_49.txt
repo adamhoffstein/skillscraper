@@ -1,2 +1,0 @@
-
-Pikemann is looking for a Data Engineer, with a strong software engineering experience.As the Data Engineer, you will play a critical role in developing our data ecosystem and building the data foundation of the company.Working set-up: RemoteRequirements:3+ years of software engineering experienceMust be a team player to collaborate, build and maintain data pipelines using technologies like Python, Airflow, Great Expectations, DBT, S3, and Snowflake/RedshiftCan do manipulate data in many different environments & formats such as: (Pandas, SQL, CSV, XML, JSON, etc.)

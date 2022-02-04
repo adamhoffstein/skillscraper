@@ -1,2 +1,0 @@
-
-        Job Title: Data Engineer  Location: Parsippany, NJ Duration: Full Time Hire Mode of Interview: Technical Interview & Video   Job description: Design and support the database and table schemas for new and evolving sources of data being brought into the data warehouse Data ingestion into their data lake environment Data analysts to build Azure Data Lake using Python/ PowerShell/ SQLExperience with Azure or one of the cloud data platforms Experience with data lakes and designing and maintaining data solutions using Azure serverless services such as Azure Data Factory 

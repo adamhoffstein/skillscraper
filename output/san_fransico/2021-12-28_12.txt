@@ -1,3 +1,0 @@
-
-        Role - Azure Data EngineerDuration: 6 month CTHLocation: RemoteVisa : USC,GC or GC EAD Independent CandidateJob Description: Responsibilities:Data Engineer - Data Ingestion, Transformation and OrchestrationMust have skills:Azure Data Factory, Azure, Azure SQL Database, ETL, Python
-      

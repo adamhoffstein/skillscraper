@@ -1,2 +1,0 @@
-
-Job Description: Developing code in Pyspark, Data bricks, working with architecture and delivering the product following Agile methodologiesGood understanding of SQL - any database Teradata, Hadoop Hive or Impala.Meetings with clients to finalize the design & architecture of the project.Handling CICD (Continuous Integration & Continuous Delivery) Primary Skills: 1-pySpark 2- DatabricksNice-to-have skills: 1. AWS Knowledge. 2. understanding of Devops framework.
